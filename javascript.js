@@ -15,7 +15,6 @@ window.onload = function(){
                             color: "#ff00ff", 
                             message: messageString}, {
               success: function(object) {
-                //addMessage(chatMessage.get("user"), chatMessage.get("color"), messageString);
                 readMessages();
               },
               error: function(model, error) {
@@ -76,8 +75,6 @@ window.onload = function(){
     };
 
     //check for new messages every 1 second
-    //var readMessage = setInterval(readMessages, 1000);	
-    
     var updateMessage = setInterval(updateMessages, 1000);	
     
    
