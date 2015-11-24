@@ -2,8 +2,11 @@ window.onload = function(){
     
     Parse.initialize("KAimpzFF8jSa1QSJb0NSnMI4IHkCy4ppxHfEDJh7", "m2OZOZx62W1bgyMBjzfV46RH9JByleYbiPjo8rcp");
     
-    var messageArray = [];
+    //Me
+    var myName = "Ady";
+    var myColor = "#ff00ff";
     
+    //populate the users
     var toUsers = [{value:'All', text: 'All'}, 
                    {value:'Kevin', text: 'Kevin'}, 
                    {value:'Lalit', text: 'Lalit'}, 
@@ -19,18 +22,21 @@ window.onload = function(){
         select.appendChild(option);
     }
     
+    //prepare to read the messages
+    var messageArray = [];
     readMessages();
     
+    //saving message on Parse when button send is clicked
     document.getElementById('send').onclick = function(){
         var messageString = document.getElementById('text').value;
                
         var ChatMessage = Parse.Object.extend("ChatMessage");
         var chatMessage = new ChatMessage();
         
-        chatMessage.save({  user: "Ady", 
-                            color: "#ff00ff", 
+        chatMessage.save({  user: myName, 
+                            color: myColor, 
                             message: messageString,
-                            to: toUsers[0]}, {
+                            to: $("#toWhom").val()}, {
               success: function(object) {
                 readMessages();
               },
@@ -62,6 +68,7 @@ window.onload = function(){
         var ChatMessage = Parse.Object.extend("ChatMessage");
         var allMessages = new Parse.Query(ChatMessage);
         allMessages.ascending("createdAt");
+        allMessages.containedIn("to",["All", myName]);
         
         allMessages.find({
             success: function(allMessages) {
@@ -77,6 +84,7 @@ window.onload = function(){
                                 var color = chatMessage.get("color");
 
                                 addMessage(user, message, color);
+                                //updateMessages();
                           },
                           error: function(object, error) {
                             // The object was not retrieved successfully.
@@ -88,11 +96,9 @@ window.onload = function(){
             }
         });
      
-       //https://github.com/davin12x/TalkApp LALIT Code
     };
 
-    //check for new messages every 1 second
+    //check for new messages every 5 second
     var updateMessage = setInterval(updateMessages, 1000);	
-    
    
 }
