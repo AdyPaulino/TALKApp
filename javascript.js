@@ -4,6 +4,21 @@ window.onload = function(){
     
     var messageArray = [];
     
+    var toUsers = [{value:'All', text: 'All'}, 
+                   {value:'Kevin', text: 'Kevin'}, 
+                   {value:'Lalit', text: 'Lalit'}, 
+                   {value:'Tiago', text: 'Tiago'}];
+    
+    var select = document.getElementById('toWhom');
+    
+    for (var i = 0; i < toUsers.length; i ++) {
+        option = document.createElement('option');
+        option.setAttribute('value', toUsers[i].value);
+        option.appendChild(document.createTextNode(toUsers[i].text));
+        
+        select.appendChild(option);
+    }
+    
     readMessages();
     
     document.getElementById('send').onclick = function(){
@@ -11,9 +26,11 @@ window.onload = function(){
                
         var ChatMessage = Parse.Object.extend("ChatMessage");
         var chatMessage = new ChatMessage();
-        chatMessage.save({user: "Ady", 
+        
+        chatMessage.save({  user: "Ady", 
                             color: "#ff00ff", 
-                            message: messageString}, {
+                            message: messageString,
+                            to: toUsers[0]}, {
               success: function(object) {
                 readMessages();
               },
